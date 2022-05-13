@@ -1,0 +1,17 @@
+Package: brisk
+Title: Bayesian Benefit Risk Analyse
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Richard",
+           family = "Payne",
+           role = c("aut", "cre"),
+           email = "richard.payne@lilly.com")
+Description: Provides functions to assist with Bayesian benefit risk analyses.
+License: MIT + file LICENSE
+Imports:
+  dplyr (>= 1.0),
+  purrr (>= 0.3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
