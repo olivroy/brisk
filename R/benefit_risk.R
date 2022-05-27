@@ -16,7 +16,8 @@ br <- function(...) {
     dplyr::rowwise() %>%
     dplyr::mutate(
       total = sum(c_across(everything()))
-    )
+    ) %>%
+    ungroup()
   w <- purrr::map(brs, get_weight)
   w <- do.call("c", w)
   attr(utilities, "weights") <- w
