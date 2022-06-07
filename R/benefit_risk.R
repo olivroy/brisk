@@ -1,23 +1,40 @@
+#' @export
 benefit <- function(name, fun, weight, samples) {
   out <- list(name = name, fun = fun, weight = weight, samples = samples)
   class(out) <- "brisk_benefit"
   return(out)
 }
 
+#' @export
 risk <- function(name, fun, weight, samples) {
   out <- list(name = name, fun = fun, weight = weight, samples = samples)
   class(out) <- "brisk_risk"
   return(out)
 }
 
+#' @export
 br <- function(...) {
+  brs <- list(...)
+  scores <- do.call(tidyr::bind_rows, brs)
+  sumry <- scores %>%
+    dplyr::group_by(label) %>%
+    summarize(
+      mean = mean(total),
+      lb = quantile(total, prob = .025),
+      ub = quantile(total, prob = .975),
+    )
+}
+
+#' @export
+br_group <- function(label, ...) {
   brs <- list(...)
   utilities <- purrr::map_dfc(brs, get_utility) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(
       total = sum(c_across(everything()))
     ) %>%
-    ungroup()
+    ungroup() %>%
+    dplyr::mutate(label = !!label)
   w <- purrr::map(brs, get_weight)
   w <- do.call("c", w)
   attr(utilities, "weights") <- w

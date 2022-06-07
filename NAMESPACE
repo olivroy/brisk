@@ -2,3 +2,6 @@
 
 S3method(get_utility,brisk_benefit)
 S3method(get_utility,brisk_risk)
+export(benefit)
+export(br)
+export(risk)
