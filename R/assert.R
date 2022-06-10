@@ -1,20 +1,23 @@
 assert_function <- function(fun, name) {
   if (!is.function(fun)) {
-    rlang::abort("\"fun\" must be a function for ", name, ".", class = "brisk")
+    rlang::abort(
+      paste0("\"fun\" must be a function for ", name, "."),
+      class = "brisk"
+    )
   }
 }
 
 assert_chr <- function(x) {
   if (!is.character(x)) {
     name <- deparse(substitute(x))
-    rlang::abort(paste0("\"", name, "\" must be a string.", class = "brisk"))
+    rlang::abort(paste0("\"", name, "\" must be a string."), class = "brisk")
   }
 }
 
 assert_num <- function(x) {
   if (!is.numeric(x)) {
     name <- deparse(substitute(x))
-    rlang::abort(paste0("\"", name, "\" must be numeric.", class = "brisk"))
+    rlang::abort(paste0("\"", name, "\" must be numeric."), class = "brisk")
   }
 }
 
@@ -47,7 +50,7 @@ assert_groups <- function(groups, brs) {
 assert_group <- function(group, brs) {
   nmes <- names(group)
   br_names <- vapply(brs, function(xx) xx$name, character(1))
-  missing_names <- br_names[!(br_names %in% nmes)]
+  missing_names <- unique(br_names[!(br_names %in% nmes)])
   label <- attr(group, "label")
   if (length(missing_names) > 0) {
     rlang::abort(

@@ -18,6 +18,8 @@ br(...)
 \item{fun}{a utility function which maps a parameter value to a utility
 value.}
 
+\item{weight}{the weight of the benefit/risk.}
+
 \item{...}{calls to \code{benefit()}, \code{risk()}, and \code{br_group()} to define the
 utility functions and treatment groups.}
 }
@@ -46,13 +48,13 @@ br(
   risk("DVT", function(x) 2 * x, weight = 0.5),
   br_group(
     label = "PBO",
-    samples("CV", rnorm(100)),
-    samples("DVT", rnorm(100))
+    CV = rnorm(100),
+    DVT = rnorm(100)
   ),
   br_group(
     label = "TRT",
-    samples("CV", rnorm(100)),
-    samples("DVT", rnorm(100))
+    CV = rnorm(100),
+    DVT = rnorm(100)
   )
 )
 

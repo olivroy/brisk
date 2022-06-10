@@ -2,7 +2,7 @@
 #' @param name a string indicating the name of the benefit or risk.
 #' @param fun a utility function which maps a parameter value to a utility
 #'   value.
-#' @weight the weight of the benefit/risk.
+#' @param weight the weight of the benefit/risk.
 #' @export
 benefit <- function(name, fun, weight) {
   assert_chr(name)
@@ -53,10 +53,10 @@ br <- function(...) {
     dplyr::ungroup()
   sumry <- scores %>%
     dplyr::group_by(.data$label) %>%
-    summarize(
-      mean = mean(total),
-      lb = quantile(total, prob = .025),
-      ub = quantile(total, prob = .975),
+    dplyr::summarize(
+      mean = mean(.data$total),
+      lb = stats::quantile(.data$total, prob = .025),
+      ub = stats::quantile(.data$total, prob = .975),
     )
   out <- list(summary = sumry, scores = scores)
   w <- purrr::map(brs, get_weight)

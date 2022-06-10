@@ -28,13 +28,13 @@ br(
   risk("DVT", function(x) 2 * x, weight = 0.5),
   br_group(
     label = "PBO",
-    samples("CV", rnorm(100)),
-    samples("DVT", rnorm(100))
+    CV = rnorm(100),
+    DVT = rnorm(100)
   ),
   br_group(
     label = "TRT",
-    samples("CV", rnorm(100)),
-    samples("DVT", rnorm(100))
+    CV = rnorm(100),
+    DVT = rnorm(100)
   )
 )
 

@@ -10,8 +10,13 @@ Description: Provides functions to assist with Bayesian benefit risk analyses.
 License: MIT + file LICENSE
 Imports:
   dplyr (>= 1.0),
-  purrr (>= 0.3)
+  purrr (>= 0.3),
+  rlang (>= 1.0),
+  tibble (>= 3.1)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
