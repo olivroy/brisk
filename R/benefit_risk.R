@@ -5,6 +5,9 @@
 #' @weight the weight of the benefit/risk.
 #' @export
 benefit <- function(name, fun, weight) {
+  assert_chr(name)
+  assert_function(fun, name)
+  assert_num(weight)
   out <- list(name = name, fun = fun, weight = weight)
   class(out) <- c("brisk_benefit", "brisk_br")
   return(out)
@@ -13,6 +16,9 @@ benefit <- function(name, fun, weight) {
 #' @rdname br
 #' @export
 risk <- function(name, fun, weight) {
+  assert_chr(name)
+  assert_function(fun, name)
+  assert_num(weight)
   out <- list(name = name, fun = fun, weight = weight)
   class(out) <- c("brisk_risk", "brisk_br")
   return(out)
@@ -39,6 +45,8 @@ br <- function(...) {
   args <- list(...)
   brs <- get_brs(args)
   groups <- get_groups(args)
+  assert_brs(brs)
+  assert_groups(groups, brs)
   scores <- purrr::map_dfr(groups, get_group_utility, brs = brs) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(total = sum(c_across(ends_with("_utility")))) %>%
