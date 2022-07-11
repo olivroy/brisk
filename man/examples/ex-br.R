@@ -1,6 +1,7 @@
 br(
-  benefit("CV", function(x) x, weight = 0.5),
-  risk("DVT", function(x) 2 * x, weight = 0.5),
+  benefit("CV", function(x) x, weight = 1),
+  risk("DVT", function(x) 2 * x, weight = 1),
+
   br_group(
     label = "PBO",
     CV = rnorm(100),
@@ -12,4 +13,3 @@ br(
     DVT = rnorm(100)
   )
 )
-
