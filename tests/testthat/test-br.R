@@ -21,9 +21,13 @@ test_that("br runs", {
     iter = rep(1:2, 2)
   ) %>%
     dplyr::mutate(
-      CV_utility = .25 * CV,
-      DVT_utility = - .75 * 1.3 * DVT,
-      total = CV_utility + DVT_utility
+      CV_weight = 0.25,
+      CV_utility = CV,
+      CV_score = .25 * CV,
+      DVT_weight = 0.75,
+      DVT_utility = 1.3 * DVT,
+      DVT_score = .75 * 1.3 * DVT,
+      total = CV_score + DVT_score
     ) %>%
     dplyr::select(all_of(colnames(res$scores)))
 
