@@ -41,17 +41,17 @@ risk <- function(name, fun, weight) {
 #'   the raw posterior utility scores.
 #' @example man/examples/ex-br.R
 #' @export
-br <- function(..., mcda = FALSE) {
+br <- function(...) {
   args <- list(...)
   brs <- get_brs(args)
   groups <- get_groups(args)
-  assert_brs(brs, mcda)
+  assert_no_extra_args(args, brs, groups)
+  assert_brs(brs)
   assert_groups(groups, brs)
   scores <- purrr::map_dfr(groups, get_group_utility, brs = brs) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(total = sum(c_across(ends_with("_score")))) %>%
-    dplyr::ungroup() %>%
-    assert_mcda(mcda)
+    dplyr::ungroup()
   sumry <- scores %>%
     dplyr::group_by(.data$label) %>%
     dplyr::summarize(
@@ -63,6 +63,15 @@ br <- function(..., mcda = FALSE) {
   w <- purrr::map(brs, get_weight)
   w <- do.call("c", w)
   attr(out, "weights") <- w
+  return(out)
+}
+
+mcda <- function(...) {
+  args <- list(...)
+  brs <- get_brs(args)
+  assert_weights(brs)
+  out <- br(...)
+  assert_utility_range(out$scores)
   return(out)
 }
 

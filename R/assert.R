@@ -21,7 +21,7 @@ assert_num <- function(x) {
   }
 }
 
-assert_brs <- function(x, mcda) {
+assert_brs <- function(x) {
   all_names <- vapply(x, function(xx) xx$name, character(1))
   dups <- unique(all_names[duplicated(all_names)])
   if (length(dups) > 0) {
@@ -33,7 +33,6 @@ assert_brs <- function(x, mcda) {
       class = "brisk"
     )
   }
-  assert_weights(x, mcda)
 }
 
 assert_groups <- function(groups, brs) {
@@ -89,8 +88,7 @@ assert_mcmc <- function(group) {
   u_mcmc
 }
 
-assert_weights <- function(x, mcda) {
-  if (!mcda) return()
+assert_weights <- function(x) {
   w_sum <- vapply(x, function(xx) xx$weight, numeric(1)) %>%
     sum()
   if (!isTRUE(all.equal(w_sum, 1))) {
@@ -98,14 +96,13 @@ assert_weights <- function(x, mcda) {
   }
 }
 
-assert_mcda <- function(x, mcda) {
-  if (!mcda) return(x)
+assert_utility_range <- function(x) {
   mcda_problems <- x %>%
     dplyr::summarize(
       across(ends_with("_utility"), ~ any(.x < 0 | .x > 1))
     ) %>%
     tidyr::pivot_longer(everything()) %>%
-    dplyr::filter(value)
+    dplyr::filter(.data$value)
   if (nrow(mcda_problems) > 0) {
     names <- gsub("_utility$", "", mcda_problems$name)
     msg <- paste0(
@@ -115,5 +112,13 @@ assert_mcda <- function(x, mcda) {
     )
     rlang::abort(msg, class = "brisk")
   }
-  return(x)
+}
+
+assert_no_extra_args <- function(args, brs, groups) {
+  if (length(args) > (length(brs) + length(groups))) {
+    rlang::abort(
+      "All arguments must be calls to benefit(), risk(), or br_group().",
+      class = "brisk"
+    )
+  }
 }
