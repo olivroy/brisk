@@ -50,7 +50,8 @@ br <- function(..., mcda = FALSE) {
   scores <- purrr::map_dfr(groups, get_group_utility, brs = brs) %>%
     dplyr::rowwise() %>%
     dplyr::mutate(total = sum(c_across(ends_with("_score")))) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    assert_mcda(mcda)
   sumry <- scores %>%
     dplyr::group_by(.data$label) %>%
     dplyr::summarize(

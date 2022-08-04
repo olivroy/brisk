@@ -97,3 +97,23 @@ assert_weights <- function(x, mcda) {
     rlang::abort("Weights must sum to 1.", class = "brisk")
   }
 }
+
+assert_mcda <- function(x, mcda) {
+  if (!mcda) return(x)
+  mcda_problems <- x %>%
+    dplyr::summarize(
+      across(ends_with("_utility"), ~ any(.x < 0 | .x > 1))
+    ) %>%
+    tidyr::pivot_longer(everything()) %>%
+    dplyr::filter(value)
+  if (nrow(mcda_problems) > 0) {
+    names <- gsub("_utility$", "", mcda_problems$name)
+    msg <- paste0(
+      "The following utility functions have values outside of [0, 1]: ",
+      paste(names, collapse = ", "),
+      "."
+    )
+    rlang::abort(msg, class = "brisk")
+  }
+  return(x)
+}
