@@ -21,7 +21,7 @@ assert_num <- function(x) {
   }
 }
 
-assert_brs <- function(x) {
+assert_brs <- function(x, mcda) {
   all_names <- vapply(x, function(xx) xx$name, character(1))
   dups <- unique(all_names[duplicated(all_names)])
   if (length(dups) > 0) {
@@ -33,6 +33,7 @@ assert_brs <- function(x) {
       class = "brisk"
     )
   }
+  assert_weights(x, mcda)
 }
 
 assert_groups <- function(groups, brs) {
@@ -86,4 +87,13 @@ assert_mcmc <- function(group) {
     )
   }
   u_mcmc
+}
+
+assert_weights <- function(x, mcda) {
+  if (!mcda) return()
+  w_sum <- vapply(x, function(xx) xx$weight, numeric(1)) %>%
+    sum()
+  if (!isTRUE(all.equal(w_sum, 1))) {
+    rlang::abort("Weights must sum to 1.", class = "brisk")
+  }
 }

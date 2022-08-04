@@ -41,11 +41,11 @@ risk <- function(name, fun, weight) {
 #'   the raw posterior utility scores.
 #' @example man/examples/ex-br.R
 #' @export
-br <- function(...) {
+br <- function(..., mcda = FALSE) {
   args <- list(...)
   brs <- get_brs(args)
   groups <- get_groups(args)
-  assert_brs(brs)
+  assert_brs(brs, mcda)
   assert_groups(groups, brs)
   scores <- purrr::map_dfr(groups, get_group_utility, brs = brs) %>%
     dplyr::rowwise() %>%
