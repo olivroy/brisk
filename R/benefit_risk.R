@@ -45,11 +45,12 @@ br <- function(...) {
   args <- list(...)
   brs <- get_brs(args)
   groups <- get_groups(args)
+  assert_no_extra_args(args, brs, groups)
   assert_brs(brs)
   assert_groups(groups, brs)
   scores <- purrr::map_dfr(groups, get_group_utility, brs = brs) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(total = sum(c_across(ends_with("_utility")))) %>%
+    dplyr::mutate(total = sum(c_across(ends_with("_score")))) %>%
     dplyr::ungroup()
   sumry <- scores %>%
     dplyr::group_by(.data$label) %>%
@@ -62,6 +63,15 @@ br <- function(...) {
   w <- purrr::map(brs, get_weight)
   w <- do.call("c", w)
   attr(out, "weights") <- w
+  return(out)
+}
+
+mcda <- function(...) {
+  args <- list(...)
+  brs <- get_brs(args)
+  assert_weights(brs)
+  out <- br(...)
+  assert_utility_range(out$scores)
   return(out)
 }
 
@@ -105,26 +115,14 @@ get_group_utility <- function(br_group, brs) {
     )
 }
 
-get_utility <- function(x, br_group) UseMethod("get_utility")
-
-#' @export
-get_utility.brisk_benefit <- function(x, br_group) {
+get_utility <- function(x, br_group) {
   samples <- br_group[[x$name]]
   out <- data.frame(
-    y = samples,
-    x = x$weight * x$f(samples)
-  )
-  colnames(out) <- c(x$name, paste0(x$name, "_utility"))
-  out
-}
-
-#' @export
-get_utility.brisk_risk <- function(x, br_group) {
-  samples <- br_group[[x$name]]
-  out <- data.frame(
-    y = samples,
-    x = - x$weight * x$f(samples)
-  )
-  colnames(out) <- c(x$name, paste0(x$name, "_utility"))
+    samps = samples,
+    weight = x$weight,
+    utility =  x$f(samples)
+  ) %>%
+    dplyr::mutate(score = .data$weight * .data$utility)
+  colnames(out) <- c(x$name, paste0(x$name, c("_weight", "_utility", "_score")))
   out
 }

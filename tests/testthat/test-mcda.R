@@ -1,7 +1,8 @@
-test_that("br runs", {
-  res <- br(
-    benefit("CV", function(x) x, weight = 0.25),
-    risk("DVT", function(x) 1.3 * x, weight = 0.75),
+test_that("mcda", {
+  ilogit <- function(x) 1 / (1 + exp(- x))
+  res <- mcda(
+    benefit("CV", function(x) ilogit(x), weight = 0.25),
+    risk("DVT", function(x) ilogit(1.3 * x), weight = 0.75),
     br_group(
       label = "PBO",
       CV = 1:2,
@@ -22,11 +23,11 @@ test_that("br runs", {
   ) %>%
     dplyr::mutate(
       CV_weight = 0.25,
-      CV_utility = CV,
-      CV_score = .25 * CV,
+      CV_utility = ilogit(CV),
+      CV_score = .25 * ilogit(CV),
       DVT_weight = 0.75,
-      DVT_utility = 1.3 * DVT,
-      DVT_score = .75 * 1.3 * DVT,
+      DVT_utility = ilogit(1.3 * DVT),
+      DVT_score = .75 * ilogit(1.3 * DVT),
       total = CV_score + DVT_score
     ) %>%
     dplyr::select(all_of(colnames(res$scores)))
@@ -48,9 +49,9 @@ test_that("br runs", {
   expect_equal(attr(res, "weights"), exp_weights)
 })
 
-test_that("br() no extra args", {
+test_that("mcda checks utility range between 0 and 1", {
   expect_error(
-    br(
+    mcda(
       benefit("CV", function(x) x, weight = 0.25),
       risk("DVT", function(x) 1.3 * x, weight = 0.75),
       br_group(
@@ -62,8 +63,27 @@ test_that("br() no extra args", {
         label = "TRT",
         CV = 5:6,
         DVT = 7:8
+      )
+    ),
+    class = "brisk"
+  )
+})
+
+test_that("mcda checks weights sum to 1", {
+  expect_error(
+    mcda(
+      benefit("CV", function(x) x, weight = 0.1),
+      risk("DVT", function(x) 1.3 * x, weight = 0.75),
+      br_group(
+        label = "PBO",
+        CV = 1:2,
+        DVT = 3:4
       ),
-      foo = 1
+      br_group(
+        label = "TRT",
+        CV = 5:6,
+        DVT = 7:8
+      )
     ),
     class = "brisk"
   )

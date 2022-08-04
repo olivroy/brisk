@@ -87,3 +87,38 @@ assert_mcmc <- function(group) {
   }
   u_mcmc
 }
+
+assert_weights <- function(x) {
+  w_sum <- vapply(x, function(xx) xx$weight, numeric(1)) %>%
+    sum()
+  if (!isTRUE(all.equal(w_sum, 1))) {
+    rlang::abort("Weights must sum to 1.", class = "brisk")
+  }
+}
+
+assert_utility_range <- function(x) {
+  mcda_problems <- x %>%
+    dplyr::summarize(
+      across(ends_with("_utility"), ~ any(.x < 0 | .x > 1))
+    ) %>%
+    tidyr::pivot_longer(everything()) %>%
+    dplyr::filter(.data$value)
+  if (nrow(mcda_problems) > 0) {
+    names <- gsub("_utility$", "", mcda_problems$name)
+    msg <- paste0(
+      "The following utility functions have values outside of [0, 1]: ",
+      paste(names, collapse = ", "),
+      "."
+    )
+    rlang::abort(msg, class = "brisk")
+  }
+}
+
+assert_no_extra_args <- function(args, brs, groups) {
+  if (length(args) > (length(brs) + length(groups))) {
+    rlang::abort(
+      "All arguments must be calls to benefit(), risk(), or br_group().",
+      class = "brisk"
+    )
+  }
+}
