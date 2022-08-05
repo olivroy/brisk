@@ -56,9 +56,8 @@ br <- function(..., probs = c(.025, .975)) {
   assert_brs(brs)
   assert_groups(groups, brs)
   scores <- purrr::map_dfr(groups, get_group_utility, brs = brs) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(total = sum(c_across(ends_with("_score")))) %>%
-    dplyr::ungroup()
+    dplyr::mutate(total = rowSums(dplyr::select(., ends_with("_score")))) %>%
+    dplyr::as_tibble()
   sumry <- scores %>%
     dplyr::group_by(.data$label) %>%
     dplyr::summarize(
@@ -75,6 +74,7 @@ br <- function(..., probs = c(.025, .975)) {
   w <- purrr::map(brs, get_weight)
   w <- do.call("c", w)
   attr(out, "weights") <- w
+  class(out) <- c("brisk_br")
   return(out)
 }
 
@@ -86,6 +86,7 @@ mcda <- function(..., probs = c(.025, .975)) {
   assert_weights(brs)
   out <- br(..., probs = probs)
   assert_utility_range(out$scores)
+  class(out) <- c("brisk_mcda", class(out))
   return(out)
 }
 
