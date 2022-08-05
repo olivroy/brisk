@@ -10,7 +10,7 @@ plot.brisk_br <- function(x, reference = NULL, ...) {
   ellipsis::check_dots_empty()
   scores <- adjust_scores(x, reference)
   title <- adjust_title("Benefit-Risk Score Distribution", reference)
-  ggplot(
+  p <- ggplot(
     scores,
     aes(
       .data$total,
@@ -28,6 +28,7 @@ plot.brisk_br <- function(x, reference = NULL, ...) {
     ) +
     ggtitle(title) +
     theme(plot.title = element_text(hjust = 0.5))
+  return(p)
 }
 
 #' Plot Posterior Mean Utility Scores
@@ -46,7 +47,7 @@ plot_utility <- function(x, reference = NULL, stacked = FALSE) {
       .groups = "drop"
     ) %>%
     tidyr::pivot_longer(
-      -.data$label,
+      - .data$label,
       names_to = "Outcome",
       values_to = "Utility"
     ) %>%
@@ -90,7 +91,6 @@ plot_utility <- function(x, reference = NULL, stacked = FALSE) {
 adjust_scores <- function(x, reference) {
   assert_reference(x, reference)
   if (is.null(reference)) return(x$scores)
-  # scores <- dplyr::select(x$scores, .data$iter, .data$label, .data$total)
   scores <- x$scores
   scores_ref <- dplyr::filter(scores, .data$label == !!reference)
   scores <- dplyr::filter(scores, .data$label != !!reference)
@@ -102,7 +102,7 @@ adjust_scores <- function(x, reference) {
         ~ .x - cur_data()[[paste0(cur_column(), "_ref")]]
       )
     ) %>%
-    dplyr::select(-ends_with("_ref")) %>%
+    dplyr::select(- ends_with("_ref")) %>%
     dplyr::mutate(reference = !!reference)
 }
 
