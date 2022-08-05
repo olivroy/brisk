@@ -3,51 +3,23 @@ on: [push, pull_request]
 name: cover
 
 jobs:
-  cover:
-    timeout-minutes: 30
-    runs-on: ${{ matrix.config.os }}
-
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - {os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-
+  test-coverage:
+    runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.BRISK }}
+
     steps:
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@v2
 
-      - uses: r-lib/actions/setup-pandoc@master
-
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v1
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
-
-      - name: Install dependencies
-        run: |
-          install.packages(c("remotes", "covr", "devtools", "stringi"))
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
+          extra-packages: any::covr
+          needs: coverage
 
       - name: Test coverage
         run: |
-          tmp <- devtools::test()
-          print(tmp)
           out <- covr::zero_coverage(covr::package_coverage())
           print(out)
           if (nrow(out)) stop("some lines not covered by tests")
