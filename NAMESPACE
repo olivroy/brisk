@@ -3,6 +3,7 @@
 export(benefit)
 export(br)
 export(br_group)
+export(mcda)
 export(risk)
 importFrom(dplyr,"%>%")
 importFrom(dplyr,.data)

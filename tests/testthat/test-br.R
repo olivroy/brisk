@@ -35,9 +35,10 @@ test_that("br runs", {
     dplyr::group_by(label) %>%
     dplyr::summarize(
       mean = mean(total),
-      lb = stats::quantile(total, .025),
-      ub = stats::quantile(total, .975)
-    )
+      `2.50%` = stats::quantile(total, .025, names = FALSE),
+      `97.50%` = stats::quantile(total, .975, names = FALSE)
+    ) %>%
+    dplyr::ungroup()
 
   expect_type(res, "list")
   expect_equal(res$scores, exp_scores)
