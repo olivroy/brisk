@@ -46,7 +46,7 @@ risk <- function(name, fun, weight) {
 #'   samples.
 #' @return A named list with posterior summaries of utility for each group and
 #'   the raw posterior utility scores.
-#' @example man/examples/ex-br.R
+#' @example man/examples/ex-mcda.R
 #' @export
 br <- function(..., probs = c(.025, .975)) {
   args <- list(...)
@@ -55,8 +55,10 @@ br <- function(..., probs = c(.025, .975)) {
   assert_no_extra_args(args, brs, groups)
   assert_brs(brs)
   assert_groups(groups, brs)
-  scores <- purrr::map_dfr(groups, get_group_utility, brs = brs) %>%
-    dplyr::mutate(total = rowSums(dplyr::select(., ends_with("_score")))) %>%
+  scores <- purrr::map_dfr(groups, get_group_utility, brs = brs)
+  total <- rowSums(dplyr::select(scores, ends_with("_score")))
+  scores <- scores %>%
+    dplyr::mutate(total = !!total) %>%
     dplyr::as_tibble()
   sumry <- scores %>%
     dplyr::group_by(.data$label) %>%

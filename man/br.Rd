@@ -54,19 +54,27 @@ utility functions produce values between 0 and 1 for all posterior
 samples.
 }
 \examples{
-br(
-  benefit("CV", function(x) x, weight = 1),
-  risk("DVT", function(x) 2 * x, weight = 1),
-
+set.seed(1132)
+ilogit <- function(x) 1 / (1 + exp(-x))
+out <- mcda(
+  benefit("CV", function(x) ilogit(x), weight = .75),
+  risk("DVT", function(x) ilogit(- .5 * x), weight = .25),
   br_group(
     label = "PBO",
-    CV = rnorm(100),
-    DVT = rnorm(100)
+    CV = rnorm(1e4, .1),
+    DVT = rnorm(1e4, .1)
   ),
   br_group(
     label = "TRT",
-    CV = rnorm(100),
-    DVT = rnorm(100)
+    CV = rnorm(1e4, 2),
+    DVT = rnorm(1e4, 1)
   )
 )
+
+plot(out)
+plot(out, reference = "PBO")
+
+plot_utility(out)
+plot_utility(out, reference = "PBO")
+plot_utility(out, stacked = TRUE)
 }

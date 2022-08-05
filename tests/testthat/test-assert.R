@@ -6,6 +6,11 @@ test_that("assertions", {
     assert_mcmc(br_group("pbo", CV = 1:5, CVT = 1:4)),
     class = "brisk"
   )
+  expect_error(assert_reference(reference = c("a", "b")), class = "brisk")
+  expect_error(
+    assert_reference(list(scores = list(label = c("a", "b"))), "c"),
+    class = "brisk"
+  )
 })
 
 test_that("assert_br, assert_group, & assert_groups", {

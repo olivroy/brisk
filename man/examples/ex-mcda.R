@@ -1,9 +1,8 @@
 set.seed(1132)
-out <-
-  br(
-  benefit("CV", function(x) x, weight = 1),
-  risk("DVT", function(x) - .5 * x, weight = 1),
-
+ilogit <- function(x) 1 / (1 + exp(-x))
+out <- mcda(
+  benefit("CV", function(x) ilogit(x), weight = .75),
+  risk("DVT", function(x) ilogit(- .5 * x), weight = .25),
   br_group(
     label = "PBO",
     CV = rnorm(1e4, .1),
@@ -17,7 +16,6 @@ out <-
 )
 
 plot(out)
-# adjusted relative to PBO
 plot(out, reference = "PBO")
 
 plot_utility(out)

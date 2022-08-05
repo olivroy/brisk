@@ -122,3 +122,22 @@ assert_no_extra_args <- function(args, brs, groups) {
     )
   }
 }
+
+assert_reference <- function(x, reference) {
+  if (is.null(reference)) return()
+  if (length(reference) > 1) {
+    rlang::abort(
+      "\"reference\" must have length 1 or be NULL.",
+      class = "brisk"
+    )
+  }
+  labels <- unique(x$scores$label)
+  if (!(reference %in% labels)) {
+    msg <- paste0(
+      "\"reference\" must be one of: ",
+      paste(labels, collapse = ", "),
+      "."
+    )
+    rlang::abort(msg, class = "brisk")
+  }
+}
