@@ -20,7 +20,8 @@ jobs:
 
       - name: Test coverage
         run: |
-          out <- covr::zero_coverage(covr::package_coverage())
+          out <- covr::package_coverage()
           print(out)
-          if (nrow(out)) stop("some lines not covered by tests")
+          perc <- covr::percent_coverage(out)
+          if (perc < 100) stop("Some lines not covered by tests.")
         shell: Rscript {0}
