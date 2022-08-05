@@ -10,6 +10,8 @@ Description: Provides functions to assist with Bayesian benefit risk analyses.
 License: MIT + file LICENSE
 Imports:
   dplyr (>= 1.0),
+  ellipsis (>= 0.3),
+  ggplot2 (>= 3.3),
   purrr (>= 0.3),
   rlang (>= 1.0),
   tibble (>= 3.1),
