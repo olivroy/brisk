@@ -4,13 +4,16 @@
 \alias{benefit}
 \alias{risk}
 \alias{br}
+\alias{mcda}
 \title{Bayesian Benefit Risk}
 \usage{
 benefit(name, fun, weight)
 
 risk(name, fun, weight)
 
-br(...)
+br(..., probs = c(0.025, 0.975))
+
+mcda(..., probs = c(0.025, 0.975))
 }
 \arguments{
 \item{name}{a string indicating the name of the benefit or risk.}
@@ -22,6 +25,9 @@ value.}
 
 \item{...}{calls to \code{benefit()}, \code{risk()}, and \code{br_group()} to define the
 utility functions and treatment groups.}
+
+\item{probs}{a vector of probabilities used to obtain quantiles of
+the posterior of the weighted utilities for each group.}
 }
 \value{
 A named list with posterior summaries of utility for each group and
@@ -32,15 +38,20 @@ Bayesian Benefit Risk
 }
 \details{
 The \code{br()} function allows the user to define an arbitrary number
-of "benefits" and "risks".  Each benefit/risk takes requires a utility
+of "benefits" and "risks".  Each benefit/risk requires a utility
 function (\code{fun}) and a weight.  The utility function maps the benefit/risk
-parameter to a utility scores.  The \code{br_group()} function supplies samples
+parameter to a utility score.  The \code{br_group()} function supplies samples
 from the posterior distribution for each benefit risk for a specific
 group (e.g. treatment arm).
 
 The \code{br()} function then calculates the posterior distribution of the
 overall utility for each group.  The overall utility is a weighted sum of
 the utilities for each benefit/risk.
+
+The \code{mcda()} function is the same as \code{br()}, but has extra checks to
+ensure that the total weight of all benefits and risks is 1, and that the
+utility functions produce values between 0 and 1 for all posterior
+samples.
 }
 \examples{
 br(

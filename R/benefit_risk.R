@@ -27,21 +27,28 @@ risk <- function(name, fun, weight) {
 #' Bayesian Benefit Risk
 #' @param ... calls to `benefit()`, `risk()`, and `br_group()` to define the
 #'   utility functions and treatment groups.
+#' @param probs a vector of probabilities used to obtain quantiles of
+#'   the posterior of the weighted utilities for each group.
 #' @details The `br()` function allows the user to define an arbitrary number
-#'   of "benefits" and "risks".  Each benefit/risk takes requires a utility
+#'   of "benefits" and "risks".  Each benefit/risk requires a utility
 #'   function (`fun`) and a weight.  The utility function maps the benefit/risk
-#'   parameter to a utility scores.  The `br_group()` function supplies samples
+#'   parameter to a utility score.  The `br_group()` function supplies samples
 #'   from the posterior distribution for each benefit risk for a specific
 #'   group (e.g. treatment arm).
 #'
 #'   The `br()` function then calculates the posterior distribution of the
 #'   overall utility for each group.  The overall utility is a weighted sum of
 #'   the utilities for each benefit/risk.
+#'
+#'   The `mcda()` function is the same as `br()`, but has extra checks to
+#'   ensure that the total weight of all benefits and risks is 1, and that the
+#'   utility functions produce values between 0 and 1 for all posterior
+#'   samples.
 #' @return A named list with posterior summaries of utility for each group and
 #'   the raw posterior utility scores.
 #' @example man/examples/ex-br.R
 #' @export
-br <- function(...) {
+br <- function(..., probs = c(.025, .975)) {
   args <- list(...)
   brs <- get_brs(args)
   groups <- get_groups(args)
@@ -56,9 +63,14 @@ br <- function(...) {
     dplyr::group_by(.data$label) %>%
     dplyr::summarize(
       mean = mean(.data$total),
-      lb = stats::quantile(.data$total, prob = .025),
-      ub = stats::quantile(.data$total, prob = .975),
-    )
+      qtiles = stats::quantile(.data$total, prob = !!probs, names = FALSE)
+    ) %>%
+    dplyr::mutate(qtile_label = sprintf("%.2f%%", 100 * !!probs)) %>%
+    tidyr::pivot_wider(
+      names_from = "qtile_label",
+      values_from = "qtiles"
+    ) %>%
+    dplyr::ungroup()
   out <- list(summary = sumry, scores = scores)
   w <- purrr::map(brs, get_weight)
   w <- do.call("c", w)
@@ -66,11 +78,13 @@ br <- function(...) {
   return(out)
 }
 
-mcda <- function(...) {
+#' @rdname br
+#' @export
+mcda <- function(..., probs = c(.025, .975)) {
   args <- list(...)
   brs <- get_brs(args)
   assert_weights(brs)
-  out <- br(...)
+  out <- br(..., probs = probs)
   assert_utility_range(out$scores)
   return(out)
 }
