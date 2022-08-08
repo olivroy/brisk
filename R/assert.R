@@ -45,6 +45,19 @@ assert_groups <- function(groups, brs) {
       class = "brisk"
     )
   }
+  assert_weight_lengths(brs, u_mcmc)
+}
+
+assert_weight_lengths <- function(brs, n_mcmc) {
+  w_len <- vapply(brs, get_weight_length, integer(1))
+  if (!all(w_len == 1L | w_len == n_mcmc)) {
+    msg <- paste0(
+      "\"weights\" must be length 1 or equal to length of posterior samples: ",
+      n_mcmc,
+      "."
+    )
+    rlang::abort(msg, class = "brisk")
+  }
 }
 
 assert_group <- function(group, brs) {

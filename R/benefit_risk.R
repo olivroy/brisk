@@ -58,9 +58,6 @@ br <- function(...) {
   scores <- scores %>%
     dplyr::mutate(total = !!total) %>%
     dplyr::as_tibble()
-  w <- purrr::map(brs, get_weight)
-  w <- do.call("c", w)
-  attr(scores, "weights") <- w
   class(scores) <- c("brisk_br", class(scores))
   return(scores)
 }
@@ -220,10 +217,8 @@ adjust_column <- function(scores, reference, col) {
     dplyr::mutate(reference = !!reference)
 }
 
-get_weight <- function(x) {
-  out <- x$weight
-  names(out) <- x$name
-  out
+get_weight_length <- function(x) {
+  length(x$weight)
 }
 
 get_group_utility <- function(br_group, brs) {

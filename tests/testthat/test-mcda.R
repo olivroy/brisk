@@ -32,7 +32,6 @@ test_that("mcda", {
     ) %>%
     dplyr::select(all_of(colnames(res)))
   class(exp_scores) <- c("brisk_mcda", "brisk_br", class(exp_scores))
-  attr(exp_scores, "weights") <- c(CV = 0.25, DVT = 0.75)
 
   expect_equal(res, exp_scores)
 })
