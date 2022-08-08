@@ -23,43 +23,49 @@ out <- mcda(
 )
 
 test_that("plot", {
+  p <- plot(out)
+  expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  p <- plot(out)
   expect_snapshot(gg_save(p, "plot.png"))
 })
 
 test_that("plot with ref", {
+  p <- plot(out, reference = "PBO")
+  expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  p <- plot(out, reference = "PBO")
   expect_snapshot(gg_save(p, "plot-ref.png"))
 })
 
 test_that("plot utility", {
+  p <- plot_utility(out)
+  expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  p <- plot_utility(out)
   expect_snapshot(gg_save(p, "plot-utility.png"))
 })
 
 test_that("plot utility with reference", {
+  p <- plot_utility(out, reference = "PBO")
+  expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  p <- plot_utility(out, reference = "PBO")
   expect_snapshot(gg_save(p, "plot-utility-ref.png"))
 })
 
 test_that("plot utility stacked", {
+  p <- plot_utility(out, stacked = TRUE)
+  expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  p <- plot_utility(out, stacked = TRUE)
   expect_snapshot(gg_save(p, "plot-utility-stacked.png"))
 })
 
 test_that("plot utility stacked with reference", {
+  p <- plot_utility(out, reference = "PBO", stacked = TRUE)
+  expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  p <- plot_utility(out, reference = "PBO", stacked = TRUE)
   expect_snapshot(gg_save(p, "plot-utility-stacked-ref.png"))
 })
