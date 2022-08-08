@@ -34,17 +34,7 @@ test_that("mcda", {
   class(exp_scores) <- c("brisk_mcda", "brisk_br", class(exp_scores))
   attr(exp_scores, "weights") <- c(CV = 0.25, DVT = 0.75)
 
-  exp_summary <- exp_scores %>%
-    dplyr::group_by(label) %>%
-    dplyr::summarize(
-      mean = mean(total),
-      `2.50%` = stats::quantile(total, .025, names = FALSE),
-      `97.50%` = stats::quantile(total, .975, names = FALSE)
-    ) %>%
-    dplyr::ungroup()
-
   expect_equal(res, exp_scores)
-  expect_equal(summary(res), list(summary = exp_summary, scores = exp_scores))
 })
 
 test_that("mcda checks utility range between 0 and 1", {

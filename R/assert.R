@@ -141,3 +141,9 @@ assert_reference <- function(x, reference) {
     rlang::abort(msg, class = "brisk")
   }
 }
+
+assert_p <- function(p) {
+  if (any(p < 0 | p > 1)) {
+    rlang::abort("\"p\" must be between 0 and 1.", class = "brisk")
+  }
+}
