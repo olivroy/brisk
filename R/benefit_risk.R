@@ -136,15 +136,71 @@ summary.brisk_br <- function(
       ) %>%
       dplyr::ungroup()
   }
+  sumry <- dplyr::mutate(sumry, reference = !!reference)
   list(summary = sumry, scores = scores)
 }
+
+#' @title Calculate Quantiles and Probabilities
+#' @description Calculates posterior quantiles and probabilities on
+#'   benefit-risk scores.
+#' @inheritParams summary.brisk_br
+#' @param x output from a call to `brisk::br()` or `brisk::mcda()`.
+#' @param q vector of quantiles.
+#' @param direction the direction of the posterior probability to compute.
+#' @return A tibble with the quantile and posterior probability of the
+#'   benefit-risk score for each group.
+#' @example man/examples/ex-pbrisk.R
+#' @export
+pbrisk <- function(x, q, reference = NULL, direction = c("lower", "upper")) {
+  direction <- match.arg(direction)
+  scores <- summary(x, reference = reference, probs = NULL)$scores
+  scores <- scores %>% dplyr::group_by(.data$label)
+  out <- purrr::map_dfr(q, get_prob, x = scores) %>%
+    dplyr::mutate(direction = !!direction, reference = !!reference) %>%
+    dplyr::arrange(.data$label, .data$q)
+  if (direction == "upper") {
+    out <- dplyr::mutate(out, prob = 1 - .data$prob)
+  }
+  return(out)
+}
+
+#' @rdname pbrisk
+#' @param p a vector of probabilities from which to compute posterior quantiles.
+#' @export
+qbrisk <- function(x, p, reference = NULL) {
+  assert_p(p)
+  scores <- summary(x, reference = reference, probs = NULL)$scores
+  scores <- scores %>% dplyr::group_by(.data$label)
+  out <- purrr::map_dfr(p, get_quantile, x = scores) %>%
+    dplyr::arrange(.data$label, .data$p) %>%
+    dplyr::mutate(reference = !!reference)
+  return(out)
+}
+
+get_prob <- function(x, q) {
+  x %>%
+    dplyr::summarize(
+      q = !!q,
+      prob = mean(.data$total < !!q),
+      .groups = "drop"
+    )
+}
+
+get_quantile <- function(x, p) {
+  x %>%
+    dplyr::summarize(
+      p = !!p,
+      quantile = stats::quantile(.data$total, prob = p, names = FALSE),
+      .groups = "drop"
+    )
+}
+
+
 
 safe_quantile <- function(x, prob) {
   if (is.null(prob)) return(NULL)
   stats::quantile(x, prob = prob, names = FALSE)
 }
-
-
 
 adjust_column <- function(scores, reference, col) {
   col <- rlang::enquo(col)
