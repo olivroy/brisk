@@ -30,7 +30,9 @@ test_that("mcda", {
       DVT_score = .75 * ilogit(1.3 * DVT),
       total = CV_score + DVT_score
     ) %>%
-    dplyr::select(all_of(colnames(res$scores)))
+    dplyr::select(all_of(colnames(res)))
+  class(exp_scores) <- c("brisk_mcda", "brisk_br", class(exp_scores))
+  attr(exp_scores, "weights") <- c(CV = 0.25, DVT = 0.75)
 
   exp_summary <- exp_scores %>%
     dplyr::group_by(label) %>%
@@ -41,13 +43,8 @@ test_that("mcda", {
     ) %>%
     dplyr::ungroup()
 
-  expect_type(res, "list")
-  expect_equal(res$scores, exp_scores)
-  expect_equal(res$summary, exp_summary)
-
-  exp_weights <- c(.25, .75)
-  names(exp_weights) <- c("CV", "DVT")
-  expect_equal(attr(res, "weights"), exp_weights)
+  expect_equal(res, exp_scores)
+  expect_equal(summary(res), list(summary = exp_summary, scores = exp_scores))
 })
 
 test_that("mcda checks utility range between 0 and 1", {

@@ -27,8 +27,6 @@ risk <- function(name, fun, weight) {
 #' Bayesian Benefit Risk
 #' @param ... calls to `benefit()`, `risk()`, and `br_group()` to define the
 #'   utility functions and treatment groups.
-#' @param probs a vector of probabilities used to obtain quantiles of
-#'   the posterior of the weighted utilities for each group.
 #' @details The `br()` function allows the user to define an arbitrary number
 #'   of "benefits" and "risks".  Each benefit/risk requires a utility
 #'   function (`fun`) and a weight.  The utility function maps the benefit/risk
@@ -48,7 +46,7 @@ risk <- function(name, fun, weight) {
 #'   the raw posterior utility scores.
 #' @example man/examples/ex-mcda.R
 #' @export
-br <- function(..., probs = c(.025, .975)) {
+br <- function(...) {
   args <- list(...)
   brs <- get_brs(args)
   groups <- get_groups(args)
@@ -60,36 +58,23 @@ br <- function(..., probs = c(.025, .975)) {
   scores <- scores %>%
     dplyr::mutate(total = !!total) %>%
     dplyr::as_tibble()
-  sumry <- scores %>%
-    dplyr::group_by(.data$label) %>%
-    dplyr::summarize(
-      mean = mean(.data$total),
-      qtiles = stats::quantile(.data$total, prob = !!probs, names = FALSE)
-    ) %>%
-    dplyr::mutate(qtile_label = sprintf("%.2f%%", 100 * !!probs)) %>%
-    tidyr::pivot_wider(
-      names_from = "qtile_label",
-      values_from = "qtiles"
-    ) %>%
-    dplyr::ungroup()
-  out <- list(summary = sumry, scores = scores)
   w <- purrr::map(brs, get_weight)
   w <- do.call("c", w)
-  attr(out, "weights") <- w
-  class(out) <- c("brisk_br")
-  return(out)
+  attr(scores, "weights") <- w
+  class(scores) <- c("brisk_br", class(scores))
+  return(scores)
 }
 
 #' @rdname br
 #' @export
-mcda <- function(..., probs = c(.025, .975)) {
+mcda <- function(...) {
   args <- list(...)
   brs <- get_brs(args)
   assert_weights(brs)
-  out <- br(..., probs = probs)
-  assert_utility_range(out$scores)
-  class(out) <- c("brisk_mcda", class(out))
-  return(out)
+  scores <- br(...)
+  assert_utility_range(scores)
+  class(scores) <- c("brisk_mcda", class(scores))
+  return(scores)
 }
 
 get_brs <- function(x) {
@@ -116,6 +101,67 @@ br_group <- function(label, ...) {
   attr(samps, "label") <- label
   class(samps) <- "brisk_group"
   return(samps)
+}
+
+#' Summarize Bayesian Benefit-Risk Scores
+#' @param object output from a call to `brisk::br()` or `brisk::mcda()`.
+#' @param probs a vector of probabilities used to obtain quantiles of
+#'   the posterior of the weighted utilities for each group.
+#' @param reference a string indicating which group is the reference group which
+#'   is used to subtract scores from other groups.
+#' @param ... Additional arguments which throw an error if specified.
+#' @return A named list with the posterior summary, and the scores from the
+#'   `object` object (which are adjusted if `reference` is specified).
+#' @export
+summary.brisk_br <- function(
+  object,
+  probs = c(.025, .975),
+  reference = NULL,
+  ...
+) {
+  ellipsis::check_dots_empty()
+  scores <- adjust_column(object, reference, "total")
+  sumry <- scores %>%
+    dplyr::group_by(.data$label) %>%
+    dplyr::summarize(
+      mean = mean(.data$total),
+      qtiles = safe_quantile(.data$total, prob = !!probs)
+    )
+  if (!is.null(probs)) {
+    sumry <- sumry %>%
+      dplyr::mutate(qtile_label = sprintf("%.2f%%", 100 * !!probs)) %>%
+      tidyr::pivot_wider(
+        names_from = "qtile_label",
+        values_from = "qtiles"
+      ) %>%
+      dplyr::ungroup()
+  }
+  list(summary = sumry, scores = scores)
+}
+
+safe_quantile <- function(x, prob) {
+  if (is.null(prob)) return(NULL)
+  stats::quantile(x, prob = prob, names = FALSE)
+}
+
+
+
+adjust_column <- function(scores, reference, col) {
+  col <- rlang::enquo(col)
+  assert_reference(scores, reference)
+  if (is.null(reference)) return(scores)
+  scores_ref <- dplyr::filter(scores, .data$label == !!reference)
+  scores <- dplyr::filter(scores, .data$label != !!reference)
+  scores <- scores %>%
+    dplyr::left_join(scores_ref, by = "iter", suffix = c("", "_ref")) %>%
+    dplyr::mutate(
+      across(
+        !!col,
+        ~ .x - cur_data()[[paste0(cur_column(), "_ref")]]
+      )
+    ) %>%
+    dplyr::select(- ends_with("_ref")) %>%
+    dplyr::mutate(reference = !!reference)
 }
 
 get_weight <- function(x) {

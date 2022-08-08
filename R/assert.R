@@ -131,7 +131,7 @@ assert_reference <- function(x, reference) {
       class = "brisk"
     )
   }
-  labels <- unique(x$scores$label)
+  labels <- unique(x$label)
   if (!(reference %in% labels)) {
     msg <- paste0(
       "\"reference\" must be one of: ",
