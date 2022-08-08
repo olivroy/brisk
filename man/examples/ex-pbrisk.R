@@ -15,15 +15,9 @@ out <- br(
   )
 )
 
-out
+pbrisk(out, q = c(.03, .04))
+pbrisk(out, q = c(.03, .04), direction = "upper")
+pbrisk(out, q = c(.03, .04), reference = "PBO")
 
-summary(out, probs = c(.025, .5, .975))
-summary(out, reference = "PBO")
-
-plot(out)
-# adjusted relative to PBO
-plot(out, reference = "PBO")
-
-plot_utility(out)
-plot_utility(out, reference = "PBO")
-plot_utility(out, stacked = TRUE)
+qbrisk(out, p = c(.025, .975))
+qbrisk(out, p = c(.025, .975), reference = "PBO")

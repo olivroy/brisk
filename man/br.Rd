@@ -11,9 +11,9 @@ benefit(name, fun, weight)
 
 risk(name, fun, weight)
 
-br(..., probs = c(0.025, 0.975))
+br(...)
 
-mcda(..., probs = c(0.025, 0.975))
+mcda(...)
 }
 \arguments{
 \item{name}{a string indicating the name of the benefit or risk.}
@@ -25,9 +25,6 @@ value.}
 
 \item{...}{calls to \code{benefit()}, \code{risk()}, and \code{br_group()} to define the
 utility functions and treatment groups.}
-
-\item{probs}{a vector of probabilities used to obtain quantiles of
-the posterior of the weighted utilities for each group.}
 }
 \value{
 A named list with posterior summaries of utility for each group and
@@ -70,6 +67,11 @@ out <- mcda(
     DVT = rnorm(1e4, 1)
   )
 )
+
+out
+
+summary(out, probs = c(.025, .5, .975))
+summary(out, reference = "PBO")
 
 plot(out)
 plot(out, reference = "PBO")

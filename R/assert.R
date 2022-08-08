@@ -131,7 +131,7 @@ assert_reference <- function(x, reference) {
       class = "brisk"
     )
   }
-  labels <- unique(x$scores$label)
+  labels <- unique(x$label)
   if (!(reference %in% labels)) {
     msg <- paste0(
       "\"reference\" must be one of: ",
@@ -139,5 +139,11 @@ assert_reference <- function(x, reference) {
       "."
     )
     rlang::abort(msg, class = "brisk")
+  }
+}
+
+assert_p <- function(p) {
+  if (any(p < 0 | p > 1)) {
+    rlang::abort("\"p\" must be between 0 and 1.", class = "brisk")
   }
 }

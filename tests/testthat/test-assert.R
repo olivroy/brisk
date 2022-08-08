@@ -11,6 +11,7 @@ test_that("assertions", {
     assert_reference(list(scores = list(label = c("a", "b"))), "c"),
     class = "brisk"
   )
+  expect_error(assert_p(1.1), class = "brisk")
 })
 
 test_that("assert_br, assert_group, & assert_groups", {
