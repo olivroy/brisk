@@ -17,7 +17,7 @@ out <- mcda(
 
 out
 
-summary(out)
+summary(out, probs = c(.025, .5, .975))
 summary(out, reference = "PBO")
 
 plot(out)

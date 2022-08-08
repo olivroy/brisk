@@ -109,6 +109,7 @@ br_group <- function(label, ...) {
 #'   the posterior of the weighted utilities for each group.
 #' @param reference a string indicating which group is the reference group which
 #'   is used to subtract scores from other groups.
+#' @param ... Additional arguments which throw an error if specified.
 #' @return A named list with the posterior summary, and the scores from the
 #'   `object` object (which are adjusted if `reference` is specified).
 #' @export

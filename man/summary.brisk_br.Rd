@@ -14,6 +14,8 @@ the posterior of the weighted utilities for each group.}
 
 \item{reference}{a string indicating which group is the reference group which
 is used to subtract scores from other groups.}
+
+\item{...}{Additional arguments which throw an error if specified.}
 }
 \value{
 A named list with the posterior summary, and the scores from the

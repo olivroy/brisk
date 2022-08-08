@@ -13,7 +13,7 @@ risk(name, fun, weight)
 
 br(...)
 
-mcda(..., probs = c(0.025, 0.975))
+mcda(...)
 }
 \arguments{
 \item{name}{a string indicating the name of the benefit or risk.}
@@ -67,6 +67,11 @@ out <- mcda(
     DVT = rnorm(1e4, 1)
   )
 )
+
+out
+
+summary(out, probs = c(.025, .5, .975))
+summary(out, reference = "PBO")
 
 plot(out)
 plot(out, reference = "PBO")

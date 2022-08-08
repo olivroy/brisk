@@ -15,6 +15,11 @@ out <- br(
   )
 )
 
+out
+
+summary(out, probs = c(.025, .5, .975))
+summary(out, reference = "PBO")
+
 plot(out)
 # adjusted relative to PBO
 plot(out, reference = "PBO")
