@@ -42,8 +42,14 @@ test_that("br runs", {
     ) %>%
     dplyr::ungroup()
 
+  exp_summary2 <- dplyr::select(exp_summary, .data$label, .data$mean)
+
   expect_equal(res, exp_scores)
   expect_equal(summary(res), list(summary = exp_summary, scores = exp_scores))
+  expect_equal(
+    summary(res, probs = NULL),
+    list(summary = exp_summary2, scores = exp_scores)
+  )
 })
 
 test_that("br() no extra args", {

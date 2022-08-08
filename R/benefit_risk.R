@@ -125,16 +125,26 @@ summary.brisk_br <- function(
     dplyr::group_by(.data$label) %>%
     dplyr::summarize(
       mean = mean(.data$total),
-      qtiles = stats::quantile(.data$total, prob = !!probs, names = FALSE)
-    ) %>%
-    dplyr::mutate(qtile_label = sprintf("%.2f%%", 100 * !!probs)) %>%
-    tidyr::pivot_wider(
-      names_from = "qtile_label",
-      values_from = "qtiles"
-    ) %>%
-    dplyr::ungroup()
+      qtiles = safe_quantile(.data$total, prob = !!probs)
+    )
+  if (!is.null(probs)) {
+    sumry <- sumry %>%
+      dplyr::mutate(qtile_label = sprintf("%.2f%%", 100 * !!probs)) %>%
+      tidyr::pivot_wider(
+        names_from = "qtile_label",
+        values_from = "qtiles"
+      ) %>%
+      dplyr::ungroup()
+  }
   list(summary = sumry, scores = scores)
 }
+
+safe_quantile <- function(x, prob) {
+  if (is.null(prob)) return(NULL)
+  stats::quantile(x, prob = prob, names = FALSE)
+}
+
+
 
 adjust_column <- function(scores, reference, col) {
   col <- rlang::enquo(col)
