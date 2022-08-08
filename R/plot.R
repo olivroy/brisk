@@ -1,14 +1,13 @@
 #' Plot Benefit/Risk Posterior Scores
 #' @param x output from a call to `br()` or `mcda()`.
-#' @param reference a string indicating which group is the reference group which
-#'   is used to subtract scores from other groups.
 #' @param ... additional arguments throw an error.
+#' @inheritParams summary.brisk_br
 #' @return A ggplot object plotting the posterior densities of the weighted
 #'   utility scores.
 #' @export
 plot.brisk_br <- function(x, reference = NULL, ...) {
   ellipsis::check_dots_empty()
-  scores <- adjust_scores(x, reference)
+  scores <- summary(x, reference = reference)$scores
   title <- adjust_title("Benefit-Risk Score Distribution", reference)
   p <- ggplot(
     scores,
@@ -39,7 +38,7 @@ plot.brisk_br <- function(x, reference = NULL, ...) {
 #' @example man/examples/ex-mcda.R
 #' @export
 plot_utility <- function(x, reference = NULL, stacked = FALSE) {
-  scores <- adjust_scores(x, reference)
+  scores <- adjust_column(x, reference, ends_with("_utility"))
   post_mean <- scores %>%
     dplyr::group_by(.data$label) %>%
     dplyr::summarize(
@@ -86,24 +85,6 @@ plot_utility <- function(x, reference = NULL, stacked = FALSE) {
       )
   }
   return(p)
-}
-
-adjust_scores <- function(x, reference) {
-  assert_reference(x, reference)
-  if (is.null(reference)) return(x$scores)
-  scores <- x$scores
-  scores_ref <- dplyr::filter(scores, .data$label == !!reference)
-  scores <- dplyr::filter(scores, .data$label != !!reference)
-  scores <- scores %>%
-    dplyr::left_join(scores_ref, by = "iter", suffix = c("", "_ref")) %>%
-    dplyr::mutate(
-      across(
-        ends_with("_utility") | ends_with("_score") | .data$total,
-        ~ .x - cur_data()[[paste0(cur_column(), "_ref")]]
-      )
-    ) %>%
-    dplyr::select(- ends_with("_ref")) %>%
-    dplyr::mutate(reference = !!reference)
 }
 
 adjust_title <- function(title, reference) {

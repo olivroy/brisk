@@ -15,6 +15,11 @@ out <- mcda(
   )
 )
 
+out
+
+summary(out)
+summary(out, reference = "PBO")
+
 plot(out)
 plot(out, reference = "PBO")
 
