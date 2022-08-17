@@ -27,7 +27,7 @@ test_that("plot", {
   expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  expect_snapshot(gg_save(p, "plot.png"))
+  expect_snapshot_file(gg_save(p, "plot.png"))
 })
 
 test_that("plot with ref", {
@@ -35,7 +35,7 @@ test_that("plot with ref", {
   expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  expect_snapshot(gg_save(p, "plot-ref.png"))
+  expect_snapshot_file(gg_save(p, "plot-ref.png"))
 })
 
 test_that("plot utility", {
@@ -43,7 +43,7 @@ test_that("plot utility", {
   expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  expect_snapshot(gg_save(p, "plot-utility.png"))
+  expect_snapshot_file(gg_save(p, "plot-utility.png"))
 })
 
 test_that("plot utility with reference", {
@@ -51,7 +51,7 @@ test_that("plot utility with reference", {
   expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  expect_snapshot(gg_save(p, "plot-utility-ref.png"))
+  expect_snapshot_file(gg_save(p, "plot-utility-ref.png"))
 })
 
 test_that("plot utility stacked", {
@@ -59,7 +59,7 @@ test_that("plot utility stacked", {
   expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  expect_snapshot(gg_save(p, "plot-utility-stacked.png"))
+  expect_snapshot_file(gg_save(p, "plot-utility-stacked.png"))
 })
 
 test_that("plot utility stacked with reference", {
@@ -67,5 +67,5 @@ test_that("plot utility stacked with reference", {
   expect_s3_class(p, "ggplot")
   skip_on_cran()
   skip_on_ci()
-  expect_snapshot(gg_save(p, "plot-utility-stacked-ref.png"))
+  expect_snapshot_file(gg_save(p, "plot-utility-stacked-ref.png"))
 })
