@@ -34,26 +34,26 @@ plot.brisk_br <- function(x, reference = NULL, ...) {
 #' @inheritParams plot.brisk_br
 #' @param stacked logical indicating if a stacked version of the barplot should
 #'   be produced.
-#' @return A ggplot barplot of the posterior mean utiltity scores.
+#' @return A ggplot barplot of the posterior mean weighted utiltity scores.
 #' @example man/examples/ex-mcda.R
 #' @export
 plot_utility <- function(x, reference = NULL, stacked = FALSE) {
-  scores <- adjust_column(x, reference, ends_with("_utility"))
+  scores <- adjust_column(x, reference, ends_with("_score"))
   post_mean <- scores %>%
     dplyr::group_by(.data$label) %>%
     dplyr::summarize(
-      across(ends_with("_utility"), mean),
+      across(ends_with("_score"), mean),
       .groups = "drop"
     ) %>%
     tidyr::pivot_longer(
       - .data$label,
       names_to = "Outcome",
-      values_to = "Utility"
+      values_to = "Score"
     ) %>%
-    dplyr::mutate(Outcome = sub("_utility$", "", .data$Outcome))
-  title <- adjust_title("Posterior Mean Utility", reference)
+    dplyr::mutate(Outcome = sub("_score$", "", .data$Outcome))
+  title <- adjust_title("Posterior Mean Weighted Utility", reference)
   if (!stacked)  {
-    p <- ggplot(post_mean, aes(.data$Utility, .data$Outcome)) +
+    p <- ggplot(post_mean, aes(.data$Score, .data$Outcome)) +
       geom_bar(stat = "identity") +
       facet_wrap(~ .data$label) +
       ggtitle(title) +
@@ -61,12 +61,12 @@ plot_utility <- function(x, reference = NULL, stacked = FALSE) {
   } else {
     data_label <- post_mean %>%
       dplyr::group_by(.data$label) %>%
-      dplyr::summarise(Utility = sum(.data$Utility))
+      dplyr::summarise(Score = sum(.data$Score))
     p <- ggplot(
       post_mean,
       aes(
         .data$label,
-        .data$Utility,
+        .data$Score,
         color = .data$Outcome,
         fill = .data$Outcome
       )
@@ -76,7 +76,7 @@ plot_utility <- function(x, reference = NULL, stacked = FALSE) {
       theme(plot.title = element_text(hjust = 0.5)) +
       geom_text(
         aes(
-          label = round(.data$Utility, 2),
+          label = round(.data$Score, 2),
           color = NULL,
           fill = NULL,
           vjust = - .25
