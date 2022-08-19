@@ -5,7 +5,7 @@
 \alias{qbrisk}
 \title{Calculate Quantiles and Probabilities}
 \usage{
-pbrisk(x, q, reference = NULL, direction = c("lower", "upper"))
+pbrisk(x, q, reference = NULL, direction = c("upper", "lower"))
 
 qbrisk(x, p, reference = NULL)
 }

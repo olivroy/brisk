@@ -148,7 +148,7 @@ summary.brisk_br <- function(
 #'   benefit-risk score for each group.
 #' @example man/examples/ex-pbrisk.R
 #' @export
-pbrisk <- function(x, q, reference = NULL, direction = c("lower", "upper")) {
+pbrisk <- function(x, q, reference = NULL, direction = c("upper", "lower")) {
   direction <- match.arg(direction)
   scores <- summary(x, reference = reference, probs = NULL)$scores
   scores <- scores %>% dplyr::group_by(.data$label)
