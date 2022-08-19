@@ -22,6 +22,10 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Suggests: 
-  fs (>= 1.5),
-  testthat (>= 3.0.0)
+    knitr,
+    fs (>= 1.5),
+    testthat (>= 3.0.0),
+    rmarkdown
 Config/testthat/edition: 3
+VignetteBuilder: knitr
+URL: https://rich-payne.github.io/brisk
