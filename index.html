@@ -72,12 +72,12 @@
 <div class="page-header"><h1 id="brisk">brisk<a class="anchor" aria-label="anchor" href="#brisk"></a>
 </h1></div>
 <!-- badges: start -->
-<p>The goal of <code>brisk</code> is to provide general helper functions to perform quantitative <em>B</em>ayesian benefit-<em>risk</em> (brisk) analyses. The original intent of <code>brisk</code> is to provide functions which are completely separate from the Bayesian analyses. The functions in <code>brisk</code> are intended to take samples from Bayesian posteriors as inputs, allowing users to employ whatever custom analyses are appropriate. The posteriors are then combined with utility functions and weights to provide a quantitative benefit-risk analysis.</p>
+<p>The goal of <code>brisk</code> is to provide general helper functions to perform quantitative <em>B</em>ayesian benefit-<em>risk</em> (brisk) analyses which are completely separate from the Bayesian analyses. The functions in <code>brisk</code> are intended to take samples from Bayesian posteriors as inputs, allowing users to employ whatever custom analyses are appropriate. The posteriors are then combined with utility functions and weights to provide a quantitative benefit-risk analysis.</p>
 </div>
 <div class="section level1">
 <h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h1>
-<p>For each benefit or risk, a weight and utility function are specified. The utility function takes parameter values as inputs and outputs utility values. For a given set of parameter values for each benefit and risk, the benefit-risk score can be calculated by taking a weighted average of the utility functions. Incorporating uncertainty into the estimate through a Bayesian posterior, then yields a posterior distribution on the benefit-risk score.</p>
+<p>For each benefit or risk, a weight and utility function are specified. The utility function takes parameter values as inputs and outputs utility values. For a given set of parameter values for each benefit and risk, the benefit-risk score can be calculated by taking a weighted average of the utility functions. Incorporating uncertainty into the estimate through a Bayesian posterior then yields a posterior distribution on the benefit-risk score.</p>
 <p>Benefits and risks are specified in <code>brisk</code> using the <code><a href="reference/br.html">benefit()</a></code> and <code><a href="reference/br.html">risk()</a></code> functions. These functions require the name of the benefit/risk, a utility function, and a weight. These utility functions and weights are then combined with samples from the posterior distributions of different groups through the <code><a href="reference/br_group.html">br_group()</a></code> function.</p>
 <p>Suppose we have a new treatment that is being tested against a placebo for a particular disease. For this population of patients, it is determined that a response in less than 50% of patients is not very beneficial, but, above 50% response rate, there is a consistently higher benefit. Therefore a utility function is constructed to quantify this belief (higher y-axis values are better):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -89,7 +89,7 @@
 <code class="sourceCode R"><span><span class="va">risk_fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approxfun</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.9</span>, <span class="fl">0.2</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/curve.html" class="external-link">curve</a></span><span class="op">(</span><span class="va">risk_fun</span>, xlab <span class="op">=</span> <span class="st">"Side-Effect Rate"</span>, ylab <span class="op">=</span> <span class="st">"Risk Utility Function"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<p>Since the side effects are mild, we will assign greater weight on ensuring that the drug works (75%) and a lower weight on the side effects (25%). Therefore, if an arm in the clinicial trial had a known “true” response rate of 60% and a side-effect rate of 10%, the benefit-risk value would be</p>
+<p>Since the side effects are mild, we will assign greater weight on ensuring that the drug works (75%) and a lower weight on the side effects (25%). Therefore, if an arm in the clinical trial had a known “true” response rate of 60% and a side-effect rate of 10%, the benefit-risk value would be</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fl">.75</span> <span class="op">*</span> <span class="fu">benefit_fun</span><span class="op">(</span><span class="fl">0.60</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.25</span> <span class="op">*</span> <span class="fu">risk_fun</span><span class="op">(</span><span class="fl">0.10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.5116667</span></span></code></pre></div>
@@ -167,7 +167,7 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, reference <span class="op">=</span> <span class="st">"placebo"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-11-2.png" width="100%"></p>
-<p>Lastly, there are some useful functions for plotting the posterior mean utility of each benefit/risk for each group.</p>
+<p>Lastly, there are some useful functions for plotting the posterior weighted mean utility of each benefit/risk for each group.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_utility.html">plot_utility</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="100%"></p>
@@ -181,7 +181,7 @@
 <div class="section level1">
 <h1 id="additional-notes">Additional Notes<a class="anchor" aria-label="anchor" href="#additional-notes"></a>
 </h1>
-<p>In addition to the <code><a href="reference/br.html">br()</a></code> function, <code>brisk</code> also has an <code><a href="reference/br.html">mcda()</a></code> function which performs in exactly the same way as <code><a href="reference/br.html">br()</a></code>, except that it imposes additional constraints which are typical in the MCDA analys (e.g. that weights sum to 1 and that observed outputs of the utility functions are contrained between 0 and 1).</p>
+<p>In addition to the <code><a href="reference/br.html">br()</a></code> function, <code>brisk</code> also has an <code><a href="reference/br.html">mcda()</a></code> function which performs in exactly the same way as <code><a href="reference/br.html">br()</a></code>, except that it imposes additional constraints which are typical in the MCDA analyses (e.g. that weights sum to 1 and that observed outputs of the utility functions are constrained between 0 and 1).</p>
 <p>Also note that the <code><a href="reference/br.html">br()</a></code> and <code><a href="reference/br.html">mcda()</a></code> functions can process an arbitrary number of benefits, risks, and groups, allowing it to handle a variety of benefit-risk analyses.</p>
 </div>
 
