@@ -69,7 +69,7 @@ test_that("pbrisk() and qbrisk()", {
     )
   )
   out_q <- qbrisk(res, c(.025, .975))
-  out_p <- pbrisk(res, out_q$quantile)
+  out_p <- pbrisk(res, out_q$quantile, direction = "lower")
   dplyr::left_join(out_q, out_p, by = c("label", quantile = "q")) %>%
     dplyr::mutate(equal = p == prob) %>%
     dplyr::pull(.data$equal) %>%
@@ -78,7 +78,7 @@ test_that("pbrisk() and qbrisk()", {
 
   # with adjustment
   out_q <- qbrisk(res, c(.025, .975), reference = "PBO")
-  out_p <- pbrisk(res, out_q$quantile, reference = "PBO")
+  out_p <- pbrisk(res, out_q$quantile, reference = "PBO", direction = "lower")
   dplyr::left_join(out_q, out_p, by = c("label", quantile = "q")) %>%
     dplyr::mutate(equal = p == prob) %>%
     dplyr::pull(.data$equal) %>%
