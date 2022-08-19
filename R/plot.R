@@ -34,7 +34,7 @@ plot.brisk_br <- function(x, reference = NULL, ...) {
 #' @inheritParams plot.brisk_br
 #' @param stacked logical indicating if a stacked version of the barplot should
 #'   be produced.
-#' @return A ggplot barplot of the posterior mean weighted utiltity scores.
+#' @return A ggplot barplot of the posterior mean weighted utility scores.
 #' @example man/examples/ex-mcda.R
 #' @export
 plot_utility <- function(x, reference = NULL, stacked = FALSE) {

@@ -50,7 +50,7 @@ out <- br(
 head(select(out, iter, response_weight, side_effect_weight))
 ```
 
-In some cases is may be desirable to have weights which sum to 1 (e.g. when using the `mcda()` function).  If this is the case, one can use the `sim_weights()` function to generate a set of weights which sums to 1.  One need to provide the number of weights to generate, and upper/lower bounds for each endpoint.  The function then generates weights using the bounds.  For instance, the following code will generate weights such that the ratio of side effect to response is from 0.2 to 0.3:
+In some cases is may be desirable to have weights which sum to 1 (e.g. when using the `mcda()` function).  If this is the case, one can use the `sim_weights()` function to generate a set of weights which sums to 1.  One needs to provide the number of weights to generate, and upper/lower bounds for each endpoint.  The function then generates weights using the bounds.  For instance, the following code will generate weights such that the ratio of side effect to response is from 0.2 to 0.3:
 
 ```{r}
 w <- sim_weights(1e4, response = c(1, 1), side_effect = c(0.2, 0.3))

@@ -16,7 +16,7 @@ is used to subtract scores from other groups.}
 be produced.}
 }
 \value{
-A ggplot barplot of the posterior mean weighted utiltity scores.
+A ggplot barplot of the posterior mean weighted utility scores.
 }
 \description{
 Plot Posterior Mean Utility Scores

@@ -11,13 +11,12 @@
 <!-- badges: end -->
 
 The goal of `brisk` is to provide general helper functions to perform
-quantitative *B*ayesian benefit-*risk* (brisk) analyses. The original
-intent of `brisk` is to provide functions which are completely separate
-from the Bayesian analyses. The functions in `brisk` are intended to
-take samples from Bayesian posteriors as inputs, allowing users to
-employ whatever custom analyses are appropriate. The posteriors are then
-combined with utility functions and weights to provide a quantitative
-benefit-risk analysis.
+quantitative *B*ayesian benefit-*risk* (brisk) analyses which are
+completely separate from the Bayesian analyses. The functions in `brisk`
+are intended to take samples from Bayesian posteriors as inputs,
+allowing users to employ whatever custom analyses are appropriate. The
+posteriors are then combined with utility functions and weights to
+provide a quantitative benefit-risk analysis.
 
 # Example
 
@@ -26,7 +25,7 @@ The utility function takes parameter values as inputs and outputs
 utility values. For a given set of parameter values for each benefit and
 risk, the benefit-risk score can be calculated by taking a weighted
 average of the utility functions. Incorporating uncertainty into the
-estimate through a Bayesian posterior, then yields a posterior
+estimate through a Bayesian posterior then yields a posterior
 distribution on the benefit-risk score.
 
 Benefits and risks are specified in `brisk` using the `benefit()` and
@@ -64,7 +63,7 @@ curve(risk_fun, xlab = "Side-Effect Rate", ylab = "Risk Utility Function")
 
 Since the side effects are mild, we will assign greater weight on
 ensuring that the drug works (75%) and a lower weight on the side
-effects (25%). Therefore, if an arm in the clinicial trial had a known
+effects (25%). Therefore, if an arm in the clinical trial had a known
 “true” response rate of 60% and a side-effect rate of 10%, the
 benefit-risk value would be
 
@@ -198,8 +197,8 @@ plot(out, reference = "placebo")
 
 <img src="man/figures/README-unnamed-chunk-11-2.png" width="100%" />
 
-Lastly, there are some useful functions for plotting the posterior mean
-utility of each benefit/risk for each group.
+Lastly, there are some useful functions for plotting the posterior
+weighted mean utility of each benefit/risk for each group.
 
 ``` r
 plot_utility(out)
@@ -223,9 +222,9 @@ plot_utility(out, stacked = TRUE)
 
 In addition to the `br()` function, `brisk` also has an `mcda()`
 function which performs in exactly the same way as `br()`, except that
-it imposes additional constraints which are typical in the MCDA analys
+it imposes additional constraints which are typical in the MCDA analyses
 (e.g. that weights sum to 1 and that observed outputs of the utility
-functions are contrained between 0 and 1).
+functions are constrained between 0 and 1).
 
 Also note that the `br()` and `mcda()` functions can process an
 arbitrary number of benefits, risks, and groups, allowing it to handle a
