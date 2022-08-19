@@ -102,8 +102,8 @@ assert_mcmc <- function(group) {
 }
 
 assert_weights <- function(x) {
-  w_sum <- lapply(x, function(xx) xx$weight) %>%
-    do.call(cbind, .) %>%
+  w_sum <- lapply(x, function(xx) xx$weight)
+  w_sum <- do.call(cbind, w_sum) %>%
     apply(1, sum)
   if (!isTRUE(all.equal(w_sum, rep(1, length(w_sum))))) {
     rlang::abort("Weights must sum to 1.", class = "brisk")
