@@ -80,7 +80,113 @@ is used to subtract scores from other groups.</p></dd>
 <p>A ggplot object plotting the posterior densities of the weighted
 utility scores.</p>
     </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other plots: 
+<code><a href="plot_utility.html">plot_utility</a>()</code></p></div>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1132</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ilogit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="br.html">mcda</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="br.html">benefit</a></span><span class="op">(</span><span class="st">"CV"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">ilogit</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, weight <span class="op">=</span> <span class="fl">.75</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="br.html">risk</a></span><span class="op">(</span><span class="st">"DVT"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">ilogit</span><span class="op">(</span><span class="op">-</span> <span class="fl">.5</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span>, weight <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="br_group.html">br_group</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    label <span class="op">=</span> <span class="st">"PBO"</span>,</span></span>
+<span class="r-in"><span>    CV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e4</span>, <span class="fl">.1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    DVT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e4</span>, <span class="fl">.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="br_group.html">br_group</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    label <span class="op">=</span> <span class="st">"TRT"</span>,</span></span>
+<span class="r-in"><span>    CV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e4</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    DVT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e4</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">out</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20,000 × 11</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        CV CV_weight CV_uti…¹ CV_sc…²     DVT DVT_w…³ DVT_u…⁴ DVT_s…⁵ label  iter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>  1.47       0.75    0.813   0.610  0.439     0.25   0.445  0.111  PBO       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  0.239      0.75    0.559   0.420 -<span style="color: #BB0000;">2.12</span>      0.25   0.743  0.186  PBO       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>  0.969      0.75    0.725   0.544  0.974     0.25   0.381  0.095<span style="text-decoration: underline;">1</span> PBO       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  0.655      0.75    0.658   0.494  0.077<span style="text-decoration: underline;">1</span>    0.25   0.490  0.123  PBO       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  1.51       0.75    0.819   0.615 -<span style="color: #BB0000;">0.993</span>     0.25   0.622  0.155  PBO       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">1.32</span>       0.75    0.210   0.158 -<span style="color: #BB0000;">0.874</span>     0.25   0.607  0.152  PBO       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>  0.395      0.75    0.598   0.448  1.03      0.25   0.375  0.093<span style="text-decoration: underline;">6</span> PBO       7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">1.43</span>       0.75    0.193   0.145 -<span style="color: #BB0000;">0.903</span>     0.25   0.611  0.153  PBO       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  0.180      0.75    0.545   0.409 -<span style="color: #BB0000;">0.685</span>     0.25   0.585  0.146  PBO       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">0.960</span>      0.75    0.277   0.208 -<span style="color: #BB0000;">1.50</span>      0.25   0.679  0.170  PBO      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 19,990 more rows, 1 more variable: total &lt;dbl&gt;, and abbreviated</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   variable names ¹​CV_utility, ²​CV_score, ³​DVT_weight, ⁴​DVT_utility,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁵​DVT_score</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">out</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">.5</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $summary</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   label  mean `2.50%` `50.00%` `97.50%`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> PBO   0.513   0.221    0.518    0.794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> TRT   0.728   0.472    0.752    0.857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $scores</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20,000 × 11</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        CV CV_weight CV_uti…¹ CV_sc…²     DVT DVT_w…³ DVT_u…⁴ DVT_s…⁵ label  iter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>  1.47       0.75    0.813   0.610  0.439     0.25   0.445  0.111  PBO       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  0.239      0.75    0.559   0.420 -<span style="color: #BB0000;">2.12</span>      0.25   0.743  0.186  PBO       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>  0.969      0.75    0.725   0.544  0.974     0.25   0.381  0.095<span style="text-decoration: underline;">1</span> PBO       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  0.655      0.75    0.658   0.494  0.077<span style="text-decoration: underline;">1</span>    0.25   0.490  0.123  PBO       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  1.51       0.75    0.819   0.615 -<span style="color: #BB0000;">0.993</span>     0.25   0.622  0.155  PBO       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">1.32</span>       0.75    0.210   0.158 -<span style="color: #BB0000;">0.874</span>     0.25   0.607  0.152  PBO       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>  0.395      0.75    0.598   0.448  1.03      0.25   0.375  0.093<span style="text-decoration: underline;">6</span> PBO       7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">1.43</span>       0.75    0.193   0.145 -<span style="color: #BB0000;">0.903</span>     0.25   0.611  0.153  PBO       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  0.180      0.75    0.545   0.409 -<span style="color: #BB0000;">0.685</span>     0.25   0.585  0.146  PBO       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">0.960</span>      0.75    0.277   0.208 -<span style="color: #BB0000;">1.50</span>      0.25   0.679  0.170  PBO      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 19,990 more rows, 1 more variable: total &lt;dbl&gt;, and abbreviated</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   variable names ¹​CV_utility, ²​CV_score, ³​DVT_weight, ⁴​DVT_utility,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁵​DVT_score</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">out</span>, reference <span class="op">=</span> <span class="st">"PBO"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $summary</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   label  mean `2.50%` `97.50%` reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> TRT   0.215  -<span style="color: #BB0000;">0.150</span>    0.555 PBO      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $scores</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10,000 × 12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       CV CV_weight CV_utility CV_sc…¹    DVT DVT_w…² DVT_u…³ DVT_s…⁴ label  iter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 1.01       0.75      0.733   0.550 0.381     0.25   0.453  0.113  TRT       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 1.66       0.75      0.841   0.631 1.84      0.25   0.285  0.071<span style="text-decoration: underline;">3</span> TRT       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 0.473      0.75      0.616   0.462 0.403     0.25   0.450  0.112  TRT       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2.59       0.75      0.930   0.698 0.077<span style="text-decoration: underline;">4</span>    0.25   0.490  0.123  TRT       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2.39       0.75      0.916   0.687 2.47      0.25   0.225  0.056<span style="text-decoration: underline;">3</span> TRT       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2.43       0.75      0.919   0.689 1.08      0.25   0.368  0.092<span style="text-decoration: underline;">0</span> TRT       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 1.58       0.75      0.828   0.621 2.02      0.25   0.267  0.066<span style="text-decoration: underline;">7</span> TRT       7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 3.10       0.75      0.957   0.718 1.04      0.25   0.373  0.093<span style="text-decoration: underline;">2</span> TRT       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 3.48       0.75      0.970   0.728 0.644     0.25   0.420  0.105  TRT       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1.10       0.75      0.750   0.563 0.586     0.25   0.427  0.107  TRT      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 9,990 more rows, 2 more variables: total &lt;dbl&gt;, reference &lt;chr&gt;, and</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   abbreviated variable names ¹​CV_score, ²​DVT_weight, ³​DVT_utility, ⁴​DVT_score</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.brisk_br-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">out</span>, reference <span class="op">=</span> <span class="st">"PBO"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.brisk_br-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot_utility.html">plot_utility</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.brisk_br-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plot_utility.html">plot_utility</a></span><span class="op">(</span><span class="va">out</span>, reference <span class="op">=</span> <span class="st">"PBO"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.brisk_br-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="plot_utility.html">plot_utility</a></span><span class="op">(</span><span class="va">out</span>, stacked <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.brisk_br-5.png" alt="" width="700" height="433"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
