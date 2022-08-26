@@ -1,12 +1,20 @@
 Package: brisk
 Title: Bayesian Benefit Risk Analyse
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Richard",
+Authors@R:
+    c(person(given = "Richard",
            family = "Payne",
            role = c("aut", "cre"),
-           email = "richard.payne@lilly.com")
+           email = "paynestatistics@gmail.com"),
+    person(given = "Sai",
+           family = "Dharmarajan",
+           role = "rev",
+           email = c("sai.dharmarajan@fda.hhs.gov", "shdharma@umich.edu")))
 Description: Provides functions to assist with Bayesian benefit risk analyses.
+    Users input posterior samples, utility functions, weights, and the package
+    outputs quantitative benefit-risk scores.  The posterior of the benefit-risk
+    scores for each group can be compared.  Some plotting capabilities are also
+    included.
 License: MIT + file LICENSE
 Imports:
   dplyr (>= 1.0),
@@ -29,3 +37,4 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://rich-payne.github.io/brisk
+BugReports: https://github.com/rich-payne/brisk/issues
