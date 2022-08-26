@@ -51,3 +51,8 @@ plot_utility(out)
 plot_utility(out, reference = "PBO")
 plot_utility(out, stacked = TRUE)
 }
+\seealso{
+Other plots: 
+\code{\link{plot.brisk_br}()}
+}
+\concept{plots}

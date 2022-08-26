@@ -4,6 +4,8 @@
 #' @inheritParams summary.brisk_br
 #' @return A ggplot object plotting the posterior densities of the weighted
 #'   utility scores.
+#' @example man/examples/ex-mcda.R
+#' @family plots
 #' @export
 plot.brisk_br <- function(x, reference = NULL, ...) {
   ellipsis::check_dots_empty()
@@ -35,6 +37,7 @@ plot.brisk_br <- function(x, reference = NULL, ...) {
 #' @param stacked logical indicating if a stacked version of the barplot should
 #'   be produced.
 #' @return A ggplot barplot of the posterior mean weighted utility scores.
+#' @family plots
 #' @example man/examples/ex-mcda.R
 #' @export
 plot_utility <- function(x, reference = NULL, stacked = FALSE) {
