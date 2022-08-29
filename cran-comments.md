@@ -10,10 +10,10 @@ Results can be viewed at:
 *  https://github.com/rich-payne/brisk/actions/workflows/R-CMD-check.yaml
 
 There were no ERRORs or WARNINGs, with one NOTE for Windows
-(x86_64-w64-mingw32) with R Under development:
+(x86_64-w64-mingw32) with R Under development (unstable):
 
 NOTE
 * Maintainer: 'Richard Payne <paynestatistics@gmail.com>'
 
-## Downstream dependencies
+# Downstream dependencies
 There are no downstream dependencies.
