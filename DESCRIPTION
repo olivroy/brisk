@@ -1,6 +1,6 @@
 Package: brisk
-Title: Bayesian Benefit Risk Analyse
-Version: 0.0.0.9000
+Title: Bayesian Benefit Risk Analysis
+Version: 0.1.0
 Authors@R:
     c(person(given = "Richard",
            family = "Payne",
@@ -9,8 +9,10 @@ Authors@R:
     person(given = "Sai",
            family = "Dharmarajan",
            role = "rev",
-           email = c("sai.dharmarajan@fda.hhs.gov", "shdharma@umich.edu")))
-Description: Provides functions to assist with Bayesian benefit risk analyses.
+           email = c("sai.dharmarajan@fda.hhs.gov", "shdharma@umich.edu")),
+    person(family = "Eli Lilly and Company",
+           role = "cph"))
+Description: Provides functions to assist with Bayesian benefit-risk analyses.
     Users input posterior samples, utility functions, weights, and the package
     outputs quantitative benefit-risk scores.  The posterior of the benefit-risk
     scores for each group can be compared.  Some plotting capabilities are also
@@ -23,7 +25,6 @@ Imports:
   hitandrun (>= 0.5),
   purrr (>= 0.3),
   rlang (>= 1.0),
-  tibble (>= 3.1),
   tidyr (>= 1.1)
 Encoding: UTF-8
 LazyData: true
@@ -33,6 +34,7 @@ Suggests:
     knitr,
     fs (>= 1.5),
     testthat (>= 3.0.0),
+    tibble (>= 3.1),
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr

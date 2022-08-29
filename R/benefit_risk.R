@@ -109,6 +109,7 @@ br_group <- function(label, ...) {
 #' @param ... Additional arguments which throw an error if specified.
 #' @return A named list with the posterior summary, and the scores from the
 #'   `object` object (which are adjusted if `reference` is specified).
+#' @example man/examples/ex-br.R
 #' @export
 summary.brisk_br <- function(
   object,
