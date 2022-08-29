@@ -48,7 +48,7 @@ out <- br(
 )
 
 pbrisk(out, q = c(.03, .04))
-pbrisk(out, q = c(.03, .04), direction = "upper")
+pbrisk(out, q = c(.03, .04), direction = "lower")
 pbrisk(out, q = c(.03, .04), reference = "PBO")
 
 qbrisk(out, p = c(.025, .975))
