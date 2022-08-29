@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">brisk</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@
 </h2>
 <p>When doing a quantitative benefit/risk analysis, it may be of interest to add some uncertainty around the weights. If this is the case, one can specify a vector of weights in lieu of a single weight:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rich-payne.github.io/brisk">brisk</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rich-payne.github.io/brisk/">brisk</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
@@ -128,12 +128,12 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;    iter response_weight side_effect_weight</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1           0.684              0.209</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2           0.646              0.256</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3           0.604              0.210</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4           0.699              0.280</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5           0.769              0.272</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     6           0.672              0.297</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1           0.767              0.202</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2           0.789              0.273</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3           0.627              0.216</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4           0.641              0.260</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5           0.631              0.298</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     6           0.749              0.215</span></span></code></pre></div>
 <p>In some cases is may be desirable to have weights which sum to 1 (e.g. when using the <code><a href="../reference/br.html">mcda()</a></code> function). If this is the case, one can use the <code><a href="../reference/sim_weights.html">sim_weights()</a></code> function to generate a set of weights which sums to 1. One needs to provide the number of weights to generate, and upper/lower bounds for each endpoint. The function then generates weights using the bounds. For instance, the following code will generate weights such that the ratio of side effect to response is from 0.2 to 0.3:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sim_weights.html">sim_weights</a></span><span class="op">(</span><span class="fl">1e4</span>, response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, side_effect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span>
