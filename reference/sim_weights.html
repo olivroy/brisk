@@ -76,6 +76,15 @@ set of bounds must be equal to each other (e.g. c(1, 1)) and be the largest
 set of bounds in the set specified.</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>A tibble with weights for each argument supplied to <code>...</code>.  Each
+column represents the weights, and each row (total of <code>n</code> rows) is a
+set of random weights across groups. Column names are obtained from the
+argument names of <code>...</code>, if supplied.</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>The weights are normalized relative to a set of bounds which
