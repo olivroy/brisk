@@ -14,6 +14,12 @@ and upper bound (respectively) of the un-normalized weights.  At least one
 set of bounds must be equal to each other (e.g. c(1, 1)) and be the largest
 set of bounds in the set specified.}
 }
+\value{
+A tibble with weights for each argument supplied to \code{...}.  Each
+column represents the weights, and each row (total of \code{n} rows) is a
+set of random weights across groups. Column names are obtained from the
+argument names of \code{...}, if supplied.
+}
 \description{
 Simulate Normalized Weights
 }

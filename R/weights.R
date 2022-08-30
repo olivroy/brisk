@@ -7,6 +7,10 @@
 #' @details The weights are normalized relative to a set of bounds which
 #'   are equal to each other (e.g. c(1, 1)), and also are the largest set of
 #'   bounds in the set specified.  See Example.
+#' @return A tibble with weights for each argument supplied to `...`.  Each
+#'   column represents the weights, and each row (total of `n` rows) is a
+#'   set of random weights across groups. Column names are obtained from the
+#'   argument names of `...`, if supplied.
 #' @example man/examples/ex-weights.R
 #' @export
 sim_weights <- function(n, ...) {
