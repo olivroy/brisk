@@ -16,7 +16,7 @@ Description: Quantitative methods for benefit-risk analysis help to condense
     complex decisions into a univariate metric describing the overall benefit
     relative to risk.  One approach is to use the multi-criteria decision
     analysis framework (MCDA), as in Mussen, Salek, and Walker
-    (2007) <doi:https://doi.org/10.1002/pds.1435>.  Bayesian benefit-risk
+    (2007) <doi:doi.org/10.1002/pds.1435>.  Bayesian benefit-risk
     analysis incorporates uncertainty through posterior distributions which are
     inputs to the benefit-risk framework.  The brisk package provides functions
     to assist with Bayesian benefit-risk analyses, such as MCDA.
