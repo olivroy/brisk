@@ -1,4 +1,14 @@
-This is a first CRAN submission of the brisk package.
+## Resubmission
+This is a re-submission of the brisk package (first time CRAN package).
+
+In this version I have:
+
+* Edited the description field of DESCRIPTION so it does not start with "Provides functions".
+* Added a reference in the description field of DESCRIPTION.
+* Added a \value field to the sim_weights.Rd file.
+* Use tempdir() in tests to avoid writing to a relative file path in
+  the package structure.
+* Added inst/WORDLIST
 
 # R CMD check results
 There were no ERRORs, WARNINGs or NOTEs on the following platforms:
@@ -13,7 +23,15 @@ There were no ERRORs or WARNINGs, with one NOTE for Windows
 (x86_64-w64-mingw32) with R Under development (unstable):
 
 NOTE
-* Maintainer: 'Richard Payne <paynestatistics@gmail.com>'
+Maintainer: 'Richard Payne <paynestatistics@gmail.com>'
+
+New submission
+
+Possibly misspelled words in DESCRIPTION:
+  MCDA (18:25, 22:60)
+  Mussen (18:38)
+  Salek (18:46)
+  univariate (16:30)
 
 # Downstream dependencies
 There are no downstream dependencies.
