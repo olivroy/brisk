@@ -8,6 +8,9 @@
 [![R-CMD-check](https://github.com/rich-payne/brisk/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rich-payne/brisk/actions/workflows/R-CMD-check.yaml)
 [![cover](https://github.com/rich-payne/brisk/actions/workflows/cover.yaml/badge.svg)](https://github.com/rich-payne/brisk/actions/workflows/cover.yaml)
 [![lint](https://github.com/rich-payne/brisk/actions/workflows/lint.yaml/badge.svg)](https://github.com/rich-payne/brisk/actions/workflows/lint.yaml)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/brisk?color=brightgreen)](https://r-pkg.org/pkg/brisk)
+
 <!-- badges: end -->
 
 The goal of `brisk` is to provide general helper functions to perform
