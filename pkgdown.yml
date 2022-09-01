@@ -3,7 +3,7 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   random_weights: random_weights.html
-last_built: 2022-08-31T13:14Z
+last_built: 2022-09-01T14:17Z
 urls:
   reference: https://rich-payne.github.io/brisk/reference
   article: https://rich-payne.github.io/brisk/articles

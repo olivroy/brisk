@@ -131,12 +131,12 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;    iter response_weight side_effect_weight</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1           0.663              0.251</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2           0.766              0.291</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3           0.633              0.216</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4           0.700              0.263</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5           0.706              0.247</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     6           0.626              0.208</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1           0.658              0.231</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2           0.796              0.290</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3           0.689              0.255</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4           0.628              0.213</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5           0.716              0.221</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     6           0.619              0.206</span></span></code></pre></div>
 <p>In some cases is may be desirable to have weights which sum to 1 (e.g. when using the <code><a href="../reference/br.html">mcda()</a></code> function). If this is the case, one can use the <code><a href="../reference/sim_weights.html">sim_weights()</a></code> function to generate a set of weights which sums to 1. One needs to provide the number of weights to generate, and upper/lower bounds for each endpoint. The function then generates weights using the bounds. For instance, the following code will generate weights such that the ratio of side effect to response is from 0.2 to 0.3:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sim_weights.html">sim_weights</a></span><span class="op">(</span><span class="fl">1e4</span>, response <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, side_effect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span>
