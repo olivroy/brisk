@@ -10,6 +10,8 @@
 [![lint](https://github.com/rich-payne/brisk/actions/workflows/lint.yaml/badge.svg)](https://github.com/rich-payne/brisk/actions/workflows/lint.yaml)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/brisk?color=brightgreen)](https://r-pkg.org/pkg/brisk)
+[![CRAN
+Release](https://www.r-pkg.org/badges/version/brisk)](https://r-pkg.org/pkg/brisk)
 
 <!-- badges: end -->
 
