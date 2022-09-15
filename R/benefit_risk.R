@@ -226,7 +226,7 @@ get_group_utility <- function(br_group, brs) {
   purrr::map_dfc(brs, get_utility, br_group = br_group) %>%
     dplyr::mutate(
       label = attr(br_group, "label"),
-      iter = 1:n()
+      iter = seq_len(n())
     )
 }
 
