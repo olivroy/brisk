@@ -49,7 +49,7 @@ plot_utility <- function(x, reference = NULL, stacked = FALSE) {
       .groups = "drop"
     ) %>%
     tidyr::pivot_longer(
-      - .data$label,
+      -"label",
       names_to = "Outcome",
       values_to = "Score"
     ) %>%
